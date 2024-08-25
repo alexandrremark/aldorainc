@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALDORA INC.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background: linear-gradient(135deg, #f0f8ff, #e6e6e6);
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            transition: color 0.6s ease, transform 0.6s ease;
+        }
+
+        .header h1:hover {
+            background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transform: rotate(360deg);
+        }
+
+        .header .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header .menu a {
+            text-decoration: none;
+            color: #007aff;
+            font-weight: 600;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .header .menu a:hover {
+            color: #005bb5;
+        }
+
+        .header .money {
+            font-size: 18px;
+            font-weight: 700;
+            color: #007aff;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            color: #fff;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h2 {
+            font-size: 64px;
+            font-weight: 700;
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero .description {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 20px 0;
+            color: #fff;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: 400;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: inline-block;
+        }
+
+        .hero .description:hover {
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            color: #333;
+        }
+
+        .cta {
+            margin-top: 40px;
+        }
+
+        .cta a {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #fff;
+            background: #007aff;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .cta a:hover {
+            background: #005bb5;
+            transform: scale(1.05);
+        }
+
+        .sections {
+            padding: 60px 20px;
+            background: #ffffff;
+            color: #333;
+            text-align: center;
+        }
+
+        .sections h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .sections p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer {
+            padding: 40px;
+            background: #333;
+            color: #fff;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #333;
+            color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+        }
+
+        .popup.active {
+            display: block;
+        }
+
+        .popup-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .popup-buttons .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .popup-buttons .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .accept {
+            background: #4CAF50;
+        }
+
+        .decline {
+            background: #f44336;
+        }
+
+        .xp-window {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #000;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+            border-radius: 10px;
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            text-align: left;
+        }
+
+        .xp-window.active {
+            display: block;
+        }
+
+        .xp-window .close-btn {
+            display: block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            border: 1px solid #00FF00;
+            color: #00FF00;
+            background: #000;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .xp-window .close-btn:hover {
+            background: #00FF00;
+            color: #000;
+        }
+
+        .support-window {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #000;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+            border-radius: 10px;
+            padding: 20px;
+            width: 70%;
+            max-width: 800px;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            text-align: left;
+            overflow-y: auto;
+            height: 70vh; /* 70% of viewport height */
+        }
+
+        .support-window.active {
+            display: block;
+        }
+
+        .support-window .close-btn {
+            display: block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            border: 1px solid #00FF00;
+            color: #00FF00;
+            background: #000;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .support-window .close-btn:hover {
+            background: #00FF00;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 onclick="hidePopup()">ALDORA INC</h1>
+        <div class="menu">
+            <a href="#" id="show-cash">Вывод средств</a>
+            <a href="#" id="show-support">Связь с поддержкой</a>
+            <a href="#" id="show-lacan">Принцип Лаккана</a>
+            <a href="#" id="show-tasks">Задания</a>
+        </div>
+        <div class="money">Деньги: $<span id="cash">0</span></div>
+    </header>
+
+    <section class="hero">
+        <h2>Добро пожаловать в ALDORA INC</h2>
+        <div class="description">
+            Это платформа, основанная на системе Лифтена- Лаккана, для работы с системами ИИ и интернет технологий Зетвикс.
+            <br><br>
+            Наша платформа обеспечивает оптимизированный процесс взаимодействия с последними достижениями в области искусственного интеллекта и интернет-технологий. Мы стремимся предоставлять надежные решения и высококачественные услуги для достижения максимальных результатов.
+        </div>
+        <div class="cta">
+            <a href="#">Узнать больше</a>
+        </div>
+    </section>
+
+    <section class="sections">
+        <div id="cash-section" class="section" style="display: none;">
+            <h2>Вывод средств</h2>
+            <p>Вы заработали: <span id="cash">0</span> USD</p>
+        </div>
+        <div id="support-section" class="section" style="display: none;">
+            <div id="support-window" class="support-window">
+                <div id="support-content">
+                    Lakkan software initializing the connection with Wilkovski help desk agregat.
+                    <br><br>
+                    <span id="support-text">Пожалуйста, подождите...</span>
+                </div>
+                <button class="close-btn" onclick="hideSupportWindow()">Закрыть</button>
+            </div>
+        </div>
+        <div id="lacan-section" class="section" style="display: none;">
+            <h2>Принцип Лаккана</h2>
+            <p>Принцип Лаккана — это способы помощи агрегаторам Вильковского, направленные на оптимизацию и улучшение работы системных платформ и их взаимодействия с пользователями.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 ALDORA INC. Все права защищены.</p>
+    </footer>
+
+    <div id="popup-tasks" class="popup">
+        <div id="popup-content">Это ваше текущее задание: Найти и устранить баг в приложении.</div>
+        <div class="popup-buttons">
+            <button class="btn accept" onclick="handleResponse('accept')">Принять</button>
+            <button class="btn decline" onclick="handleResponse('decline')">Отклонить</button>
+        </div>
+    </div>
+
+    <div id="xp-window" class="xp-window">
+        <div id="xp-content">Вы заработали: <span id="xp-cash">0</span> USD</div>
+        <button class="close-btn" onclick="hideXPWindow()">Закрыть</button>
+    </div>
+
+    <script>
+        const cashElement = document.getElementById('cash');
+        let cash = 0;
+        let taskIndex = 0;
+        const tasks = [
+            "Найти и устранить баг в приложении.",
+            "Провести тестирование новых функций.",
+            "Проверить совместимость с новыми версиями ОС.",
+            "Отправить отчёт о найденных ошибках."
+        ];
+
+        function increaseCash() {
+            cash += 12;
+            cashElement.textContent = cash;
+            document.getElementById('xp-cash').textContent = cash;
+        }
+
+        function showPopup() {
+            document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+            document.getElementById('popup-tasks').classList.add('active');
+            updateTask();
+        }
+
+        function hidePopup() {
+            document.getElementById('popup-tasks').classList.remove('active');
+            document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+            document.getElementById('tasks-section').style.display = 'block';
+        }
+
+        function handleResponse(response) {
+            if (response === 'accept') {
+                increaseCash();
+            }
+            taskIndex = (taskIndex + 1) % tasks.length;
+            updateTask();
+        }
+
+        function updateTask() {
+            const taskContent = tasks[taskIndex];
+            document.getElementById('popup-content').textContent = `Это ваше текущее задание: ${taskContent}`;
+        }
+
+        function showSupportWindow() {
+            document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+            document.getElementById('support-section').style.display = 'block';
+            document.getElementById('support-window').classList.add('active');
+            startSupportText();
+        }
+
+        function hideSupportWindow() {
+            document.getElementById('support-window').classList.remove('active');
+            document.getElementById('support-section').style.display = 'none';
+        }
+
+        function showXPWindow() {
+            document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+            document.getElementById('cash-section').style.display = 'block';
+            document.getElementById('xp-window').classList.add('active');
+        }
+
+        function hideXPWindow() {
+            document.getElementById('xp-window').classList.remove('active');
+            document.getElementById('cash-section').style.display = 'none';
+        }
+
+        function startSupportText() {
+            const phrases = [
+                "Connecting to server...",
+                "Retrieving data...",
+                "Establishing connection...",
+                "Authenticating user...",
+                "Initializing help desk system...",
+                "Loading resources...",
+                "Processing request...",
+                "Establishing secure link...",
+                "Reach out to phillip.kolchin@aldora.inc"
+            ];
+
+            const supportTextElement = document.getElementById('support-text');
+            let currentPhraseIndex = 0;
+
+            function updateText() {
+                supportTextElement.textContent = phrases[currentPhraseIndex];
+                if (currentPhraseIndex < phrases.length - 1) {
+                    currentPhraseIndex++;
+                    setTimeout(updateText, 2000); // Change text every 2 seconds
+                }
+            }
+
+            updateText();
+        }
+
+        document.getElementById('show-tasks').addEventListener('click', function () {
+            showPopup();
+        });
+
+        document.getElementById('show-cash').addEventListener('click', function () {
+            showXPWindow();
+        });
+
+        document.getElementById('show-support').addEventListener('click', function () {
+            showSupportWindow();
+        });
+
+        document.getElementById('show-lacan').addEventListener('click', function () {
+            document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+            document.getElementById('lacan-section').style.display = 'block';
+        });
+
+    </script>
+</body>
+</html>
